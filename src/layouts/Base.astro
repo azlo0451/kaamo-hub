@@ -1,0 +1,30 @@
+---
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'The Kaamo Club',
+  description = 'Community hub for the Galaxy on Fire series.',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="preload" href="/fonts/Xirod.otf" as="font" type="font/otf" crossorigin />
+    <link rel="preload" href="/fonts/rajdhani-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <title>{title}</title>
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

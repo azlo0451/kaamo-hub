@@ -1,0 +1,55 @@
+:root {
+  /* Surfaces — deep-space dark stack */
+  --color-void:    #050a14;  /* page background, the black of space */
+  --color-bay:     #0a1828;  /* panel / station bay background */
+  --color-station: #0f2236;  /* card / inner panel */
+  --color-hull:    #14304a;  /* lighter hull plating */
+
+  /* Holographic accent — primary UI tone */
+  --color-holo:        #66d6ff;
+  --color-holo-glow:   #99e8ff;
+  --color-holo-dim:    #2a8ab5;
+  --color-holo-faint:  #173a52;
+
+  /* Warning / Kaamo amber */
+  --color-amber:      #ffaa33;
+  --color-amber-glow: #ffcc66;
+  --color-amber-dim:  #b87a1f;
+
+  /* Text */
+  --color-ink:       #e8f4ff;
+  --color-ink-dim:   #88a4c0;
+  --color-ink-faint: #4a6480;
+
+  /* Faction colors — reserved for future use */
+  --faction-terran:   #4ade80;
+  --faction-nivelian: #60a5fa;
+  --faction-vossk:    #ef4444;
+  --faction-midorian: #c084fc;
+  --faction-kaamo:    #f97316;
+
+  /* Type stacks */
+  --font-title: 'Xirod', 'Aldrich', system-ui, sans-serif;
+  --font-body:  'Rajdhani', system-ui, sans-serif;
+  --font-ui:    'Aldrich', 'Rajdhani', system-ui, sans-serif;
+
+  /* Spacing scale */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.5rem;
+  --space-6:  2rem;
+  --space-8:  3rem;
+  --space-10: 4rem;
+  --space-12: 6rem;
+
+  /* Lines and edges — sci-fi prefers hard edges */
+  --radius:        2px;
+  --border-thin:   1px solid var(--color-holo-dim);
+  --border-faint:  1px solid var(--color-holo-faint);
+
+  /* Glow shadows */
+  --glow-holo:  0 0 12px rgba(102, 214, 255, 0.4);
+  --glow-amber: 0 0 12px rgba(255, 170, 51, 0.4);
+}
