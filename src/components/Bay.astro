@@ -1,0 +1,173 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  href: string;
+  state: 'online' | 'external' | 'offline';
+  phase?: string;
+}
+
+const { name, description, href, state, phase } = Astro.props;
+
+const stateLabels = {
+  online: 'Online',
+  external: 'External',
+  offline: 'Offline',
+} as const;
+
+const ctaLabels = {
+  online: 'Dock →',
+  external: 'Connect ↗',
+  offline: phase ? `Online in ${phase}` : 'Coming online',
+} as const;
+
+const isExternal = state === 'external';
+const isOffline = state === 'offline';
+---
+<a
+  class:list={['bay', `bay--${state}`]}
+  href={isOffline ? undefined : href}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+  aria-disabled={isOffline ? 'true' : undefined}
+>
+  <span class="bay__corner bay__corner--tl" aria-hidden="true"></span>
+  <span class="bay__corner bay__corner--tr" aria-hidden="true"></span>
+  <span class="bay__corner bay__corner--bl" aria-hidden="true"></span>
+  <span class="bay__corner bay__corner--br" aria-hidden="true"></span>
+
+  <header class="bay__head">
+    <span class="bay__pip" aria-hidden="true"></span>
+    <span class="bay__state">{stateLabels[state]}</span>
+  </header>
+
+  <h3 class="bay__name">{name}</h3>
+  <p class="bay__desc">{description}</p>
+  <span class="bay__cta">{ctaLabels[state]}</span>
+</a>
+
+<style>
+  .bay {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    background: rgba(10, 24, 40, 0.65);
+    border: 1px solid var(--color-holo-faint);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition:
+      background 200ms ease,
+      border-color 200ms ease,
+      box-shadow 200ms ease,
+      transform 200ms ease;
+  }
+
+  /* HUD-style corner brackets */
+  .bay__corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-color: var(--color-holo-dim);
+    border-style: solid;
+    border-width: 0;
+    pointer-events: none;
+    transition: border-color 200ms ease;
+  }
+  .bay__corner--tl { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+  .bay__corner--tr { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+  .bay__corner--bl { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+  .bay__corner--br { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  .bay__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-ink-dim);
+  }
+  .bay__pip {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--color-holo);
+    box-shadow: 0 0 6px var(--color-holo-glow);
+  }
+  .bay--external .bay__pip {
+    background: var(--color-holo);
+    box-shadow: 0 0 6px var(--color-holo-glow);
+  }
+  .bay--offline .bay__pip {
+    background: var(--color-amber);
+    box-shadow: 0 0 6px rgba(255, 170, 51, 0.45);
+  }
+  .bay--online .bay__pip {
+    background: var(--faction-terran);
+    box-shadow: 0 0 6px rgba(74, 222, 128, 0.45);
+  }
+
+  .bay__name {
+    font-family: var(--font-ui);
+    font-size: 1.125rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--color-ink);
+    margin: 0;
+    text-shadow: none;
+  }
+
+  .bay__desc {
+    font-size: 0.85rem;
+    color: var(--color-ink-dim);
+    margin: 0;
+    flex: 1;
+    line-height: 1.4;
+  }
+
+  .bay__cta {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-holo);
+    align-self: flex-start;
+    transition: color 200ms ease;
+  }
+
+  /* Active states (online + external) */
+  .bay--online,
+  .bay--external {
+    cursor: pointer;
+  }
+  .bay--online:hover,
+  .bay--external:hover {
+    background: rgba(15, 34, 54, 0.85);
+    border-color: var(--color-holo);
+    box-shadow: var(--glow-holo);
+    transform: translateY(-2px);
+  }
+  .bay--online:hover .bay__corner,
+  .bay--external:hover .bay__corner {
+    border-color: var(--color-holo-glow);
+  }
+  .bay--online:hover .bay__cta,
+  .bay--external:hover .bay__cta {
+    color: var(--color-holo-glow);
+  }
+
+  /* Offline */
+  .bay--offline {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  .bay--offline .bay__corner {
+    border-color: var(--color-amber-dim);
+  }
+  .bay--offline .bay__cta {
+    color: var(--color-amber-dim);
+  }
+</style>

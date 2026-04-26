@@ -1,0 +1,212 @@
+---
+import Base from '../layouts/Base.astro';
+import RandomBackground from '../components/RandomBackground.astro';
+import Bay from '../components/Bay.astro';
+
+type BayState = 'online' | 'external' | 'offline';
+type BayCategory = 'internal' | 'external';
+
+interface BayData {
+  name: string;
+  description: string;
+  href: string;
+  state: BayState;
+  category: BayCategory;
+  phase?: string;
+}
+
+const bays: BayData[] = [
+  {
+    name: 'Codex',
+    description: 'Compact, curated reference for the most-needed info.',
+    href: '#',
+    state: 'offline',
+    category: 'internal',
+    phase: 'Phase 2',
+  },
+  {
+    name: 'Archive',
+    description: 'Mods, save files, soundtracks, and installers.',
+    href: '#',
+    state: 'offline',
+    category: 'internal',
+    phase: 'Phase 3',
+  },
+  {
+    name: 'Gallery',
+    description: 'Community screenshots and fan art.',
+    href: '#',
+    state: 'offline',
+    category: 'internal',
+    phase: 'Phase 4',
+  },
+  {
+    name: 'Comms',
+    description: 'Live chat via Matrix, federated with Discord.',
+    href: '#',
+    state: 'offline',
+    category: 'internal',
+    phase: 'Phase 6',
+  },
+  {
+    name: 'Discord',
+    description: 'Real-time chat with the community.',
+    href: 'https://discord.com/invite/NzzfFppqPg/',
+    state: 'external',
+    category: 'external',
+  },
+  {
+    name: 'Subreddit',
+    description: 'Long-form discussion on r/galaxyonfire.',
+    href: 'https://reddit.com/r/galaxyonfire',
+    state: 'external',
+    category: 'external',
+  },
+  {
+    name: 'wiki.gg',
+    description: 'The comprehensive Galaxy on Fire wiki.',
+    href: 'https://galaxyonfire.wiki.gg/',
+    state: 'external',
+    category: 'external',
+  },
+];
+
+const internalBays = bays.filter((b) => b.category === 'internal');
+const externalBays = bays.filter((b) => b.category === 'external');
+
+// Pick a desktop column count, max 4 per row, balanced when wrapping.
+// 1-4 → single row of n. 5+ → split into ⌈n/4⌉ rows, balanced.
+// Examples: 4→4, 5→3 (3+2), 6→3 (3+3), 7→4 (4+3), 8→4 (4+4), 9→3 (3+3+3).
+function colsFor(n: number): number {
+  if (n <= 0) return 1;
+  if (n <= 4) return n;
+  const rows = Math.ceil(n / 4);
+  return Math.ceil(n / rows);
+}
+
+const internalCols = colsFor(internalBays.length);
+const externalCols = colsFor(externalBays.length);
+---
+<Base title="Docking Bays · The Kaamo Club">
+  <RandomBackground slot="head" />
+
+  <main class="bays-page">
+    <div class="bays-page__inner">
+      <header class="bays-page__head">
+        <p class="bays-page__eyebrow">Station Directory</p>
+        <h1 class="bays-page__title neon">Docking Bays</h1>
+      </header>
+
+      <section class="bay-section">
+        <header class="bay-section__head">
+          <h2 class="bay-section__title">On-Station</h2>
+          <span class="bay-section__rule"></span>
+        </header>
+        <div class="bay-section__grid" style={`--cols: ${internalCols}`}>
+          {internalBays.map((bay) => <Bay {...bay} />)}
+        </div>
+      </section>
+
+      <section class="bay-section">
+        <header class="bay-section__head">
+          <h2 class="bay-section__title">Comm Channels</h2>
+          <span class="bay-section__rule"></span>
+        </header>
+        <div class="bay-section__grid" style={`--cols: ${externalCols}`}>
+          {externalBays.map((bay) => <Bay {...bay} />)}
+        </div>
+      </section>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .bays-page {
+    position: relative;
+    min-height: 100vh;
+    background-image: var(--hero-bg);
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-void);
+    padding: var(--space-10) var(--space-5);
+  }
+  .bays-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5, 10, 20, 0.85), rgba(5, 10, 20, 0.92));
+    pointer-events: none;
+  }
+  .bays-page__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 72rem;
+    margin: 0 auto;
+  }
+  .bays-page__head {
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+  .bays-page__eyebrow {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-amber);
+    margin: 0 0 var(--space-2);
+  }
+  .bays-page__title {
+    margin: 0;
+  }
+
+  .bay-section {
+    margin-bottom: var(--space-10);
+  }
+  .bay-section:last-child {
+    margin-bottom: 0;
+  }
+  .bay-section__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .bay-section__title {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-amber);
+    margin: 0;
+  }
+  .bay-section__rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-amber-dim), transparent 85%);
+  }
+  .bay-section__grid {
+    --cols: 4; /* default — overridden per section via inline style */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+  }
+  /* Each tile takes a fraction of the row so exactly --cols fit per row. */
+  .bay-section__grid > :global(*) {
+    flex: 0 1 calc((100% - (var(--cols) - 1) * var(--space-3)) / var(--cols));
+  }
+
+  /* Tablet: cap at 2 columns. !important so this beats the inline --cols. */
+  @media (max-width: 48rem) {
+    .bay-section__grid {
+      --cols: 2 !important;
+    }
+  }
+  /* Mobile: single column. */
+  @media (max-width: 32rem) {
+    .bay-section__grid {
+      --cols: 1 !important;
+    }
+  }
+</style>

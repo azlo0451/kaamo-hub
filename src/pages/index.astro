@@ -1,25 +1,16 @@
 ---
-import type { ImageMetadata } from 'astro';
 import Base from '../layouts/Base.astro';
-
-const modules = import.meta.glob<{ default: ImageMetadata }>(
-  '../../assets/raw/wallpapers/*.webp',
-  { eager: true }
-);
-const wallpapers = Object.values(modules).map((m) => m.default.src);
+import RandomBackground from '../components/RandomBackground.astro';
 ---
 <Base>
-  <script slot="head" is:inline define:vars={{ wallpapers }}>
-    const pick = wallpapers[Math.floor(Math.random() * wallpapers.length)];
-    document.documentElement.style.setProperty('--hero-bg', `url("${pick}")`);
-  </script>
+  <RandomBackground slot="head" />
 
   <section class="hero">
     <div class="hero__inner">
       <p class="eyebrow">Galaxy on Fire community hub</p>
-      <h1 class="logo">The Kaamo Club</h1>
+      <h1 class="logo neon">The Kaamo Club</h1>
       <p class="lede">Docking systems coming online.</p>
-      <a class="button" href="#">Enter the station</a>
+      <a class="button" href="/bays">Enter the station</a>
     </div>
   </section>
 </Base>
@@ -64,15 +55,7 @@ const wallpapers = Object.values(modules).map((m) => m.default.src);
     text-shadow: 0 0 8px rgba(255, 170, 51, 0.5);
   }
   .logo {
-    color: #ffffff;
     margin: 0 0 var(--space-5);
-    text-shadow:
-      0 0 1px rgba(255, 255, 255, 1),
-      0 0 4px rgba(255, 255, 255, 0.95),
-      0 0 12px var(--color-holo-glow),
-      0 0 24px var(--color-holo),
-      0 0 48px var(--color-holo),
-      0 0 80px var(--color-holo-dim);
   }
   .lede {
     font-size: 1.25rem;

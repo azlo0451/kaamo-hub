@@ -74,3 +74,15 @@ button:hover,
   background: var(--color-holo-dim);
   color: var(--color-void);
 }
+
+/* Neon utility — white core, layered cyan glow */
+.neon {
+  color: #ffffff;
+  text-shadow:
+    0 0 1px rgba(255, 255, 255, 1),
+    0 0 4px rgba(255, 255, 255, 0.95),
+    0 0 12px var(--color-holo-glow),
+    0 0 24px var(--color-holo),
+    0 0 48px var(--color-holo),
+    0 0 80px var(--color-holo-dim);
+}
