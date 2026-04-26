@@ -1,0 +1,104 @@
+---
+import Content from '../layouts/Content.astro';
+---
+<Content
+  title="Privacy Policy"
+  description="Privacy notice for The Kaamo Club."
+  lang={{ current: 'English', altHref: '/datenschutz', altLabel: 'Deutsch' }}
+>
+  <p><strong>Status:</strong> 2026-04-26 · Phase 0</p>
+  <p>
+    This policy is expanded as new features (wiki, uploads, comments, Matrix
+    embed) come online. What isn't described here isn't being collected.
+  </p>
+  <p>
+    The legally binding version is the
+    <a href="/datenschutz">Datenschutzerklärung in German</a>.
+    This page is provided for the convenience of the international community.
+  </p>
+
+  <h2>1. Data controller</h2>
+  <p>
+    The data controller (in the GDPR sense) is the operator of this site.<br />
+    Contact: <code>&lt;e-mail address to be filled in&gt;</code>
+  </p>
+
+  <h2>2. Hosting and server logs</h2>
+  <p>
+    The site runs on self-hosted hardware in Germany.
+    <strong>Cloudflare</strong> sits in front as a reverse proxy and CDN.
+  </p>
+
+  <h3>Cloudflare (data processor)</h3>
+  <p>
+    When you load the site, Cloudflare processes connection data — IP address,
+    user agent, referrer, timestamp — to deliver the connection, defend
+    against attacks, and provide caching.
+  </p>
+  <ul>
+    <li>Provider: Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA</li>
+    <li>Legal basis: Art. 6(1)(f) GDPR (legitimate interest in stable, secure operation)</li>
+    <li>Privacy: <a href="https://www.cloudflare.com/privacypolicy/">cloudflare.com/privacypolicy</a></li>
+  </ul>
+
+  <h3>Own server</h3>
+  <p>The server keeps the following in its logs short-term:</p>
+  <ul>
+    <li>shortened IP address (last octet anonymized)</li>
+    <li>requested URL and HTTP status</li>
+    <li>user agent</li>
+    <li>timestamp</li>
+  </ul>
+  <p>
+    Retention: at most 14 days, then automatic deletion. No combining with
+    other data sources. Legal basis: Art. 6(1)(f) GDPR.
+  </p>
+
+  <h2>3. Cookies and local storage</h2>
+  <p>
+    Currently <strong>no</strong> cookies and <strong>no</strong> local
+    storage are set. Should future features need them (e.g. soundtrack player
+    settings), this section will be updated and consent obtained where
+    required.
+  </p>
+
+  <h2>4. External links</h2>
+  <p>
+    The site links out to Discord, Reddit, and wiki.gg. Simply displaying
+    these links does not transmit data to those services. Once you click,
+    you're redirected and their privacy policies apply from that point on.
+  </p>
+
+  <h2>5. Fonts</h2>
+  <p>
+    The fonts <em>Xirod</em>, <em>Aldrich</em>, and <em>Rajdhani</em> are
+    served locally from our own server. <strong>No</strong> connection to
+    Google Fonts or any other font CDN.
+  </p>
+
+  <h2>6. Analytics, tracking, advertising</h2>
+  <p>
+    <strong>No</strong> tracking, <strong>no</strong> analytics software (no
+    Google Analytics, no Plausible, no Matomo) and <strong>no</strong>
+    advertising.
+  </p>
+
+  <h2>7. Your rights</h2>
+  <p>Under the GDPR, you have the following rights:</p>
+  <ul>
+    <li>access (Art. 15)</li>
+    <li>rectification (Art. 16)</li>
+    <li>erasure (Art. 17)</li>
+    <li>restriction of processing (Art. 18)</li>
+    <li>data portability (Art. 20)</li>
+    <li>objection (Art. 21)</li>
+    <li>complaint to a supervisory authority (Art. 77) — in Germany, the data protection authority of your federal state</li>
+  </ul>
+  <p>Send requests informally to the email address above.</p>
+
+  <h2>8. Changes</h2>
+  <p>
+    This policy is updated whenever data processing changes (new features,
+    new processors, etc.). The date at the top reflects the current version.
+  </p>
+</Content>

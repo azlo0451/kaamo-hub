@@ -2,6 +2,7 @@
 import '../styles/fonts.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
+import Dock from '../components/Dock.astro';
 
 interface Props {
   title?: string;
@@ -25,6 +26,9 @@ const {
     <slot name="head" />
   </head>
   <body>
-    <slot />
+    <div class="page-shell">
+      <slot />
+    </div>
+    <Dock />
   </body>
 </html>

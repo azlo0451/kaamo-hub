@@ -1,0 +1,157 @@
+---
+import Base from './Base.astro';
+import RandomBackground from '../components/RandomBackground.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Optional language toggle. When provided, a small "Deutsch · English"
+   *  switch renders above the title. */
+  lang?: {
+    current: string;
+    altHref: string;
+    altLabel: string;
+  };
+}
+
+const { title, description, lang } = Astro.props;
+---
+<Base title={`${title} · The Kaamo Club`} description={description}>
+  <RandomBackground slot="head" />
+  <main class="content-page">
+    <div class="content-page__inner">
+      {lang && (
+        <p class="content-page__lang">
+          <span aria-current="page">{lang.current}</span>
+          <span class="content-page__lang-sep" aria-hidden="true">·</span>
+          <a href={lang.altHref}>{lang.altLabel}</a>
+        </p>
+      )}
+      <header class="content-page__head">
+        <h1 class="content-page__title neon">{title}</h1>
+      </header>
+      <article class="content-page__body">
+        <slot />
+      </article>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .content-page {
+    position: relative;
+    min-height: 100%;
+    background-image: var(--hero-bg);
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-void);
+    padding: var(--space-10) var(--space-5);
+  }
+  .content-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Darker overlay than the bays page so long-form text reads cleanly */
+    background: linear-gradient(180deg, rgba(5, 10, 20, 0.93), rgba(5, 10, 20, 0.96));
+    pointer-events: none;
+  }
+  .content-page__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+  .content-page__lang {
+    text-align: center;
+    margin: 0 0 var(--space-5);
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+  .content-page__lang [aria-current="page"] {
+    color: var(--color-amber);
+  }
+  .content-page__lang a {
+    color: var(--color-ink-dim);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .content-page__lang a:hover {
+    color: var(--color-holo-glow);
+    border-bottom-color: var(--color-holo-faint);
+  }
+  .content-page__lang-sep {
+    margin: 0 var(--space-3);
+    color: var(--color-ink-faint);
+  }
+  .content-page__head {
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+  .content-page__title {
+    margin: 0;
+  }
+  .content-page__body {
+    color: var(--color-ink);
+    line-height: 1.6;
+  }
+  .content-page__body :global(h2) {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-amber);
+    margin: var(--space-8) 0 var(--space-3);
+  }
+  .content-page__body :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .content-page__body :global(h3) {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-holo-glow);
+    margin: var(--space-6) 0 var(--space-2);
+  }
+  .content-page__body :global(p) {
+    margin: 0 0 var(--space-4);
+  }
+  .content-page__body :global(strong) {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .content-page__body :global(ul),
+  .content-page__body :global(ol) {
+    margin: 0 0 var(--space-4);
+    padding-left: var(--space-5);
+    color: var(--color-ink-dim);
+  }
+  .content-page__body :global(li) {
+    margin-bottom: var(--space-2);
+  }
+  .content-page__body :global(a) {
+    color: var(--color-holo);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-holo-faint);
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .content-page__body :global(a:hover) {
+    color: var(--color-holo-glow);
+    border-bottom-color: var(--color-holo);
+  }
+  .content-page__body :global(blockquote) {
+    margin: var(--space-5) 0;
+    padding: var(--space-3) var(--space-5);
+    border-left: 2px solid var(--color-amber-dim);
+    color: var(--color-ink-dim);
+  }
+  .content-page__body :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--color-holo-faint);
+    margin: var(--space-8) 0;
+  }
+</style>

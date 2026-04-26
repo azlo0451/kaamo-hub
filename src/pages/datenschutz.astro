@@ -1,0 +1,102 @@
+---
+import Content from '../layouts/Content.astro';
+---
+<Content
+  title="Datenschutzerklärung"
+  description="Datenschutzhinweise für The Kaamo Club"
+  lang={{ current: 'Deutsch', altHref: '/privacy', altLabel: 'English' }}
+>
+  <p><strong>Stand:</strong> 2026-04-26 · Phase 0</p>
+  <p>
+    Diese Erklärung wird mit jeder neuen Funktion (Wiki, Uploads, Kommentare,
+    Matrix-Embed) erweitert. Was hier nicht steht, wird auf der Seite nicht
+    erhoben.
+  </p>
+
+  <h2>1. Verantwortlicher</h2>
+  <p>
+    Verantwortlicher im Sinne der DSGVO ist der Betreiber dieser Seite.<br />
+    Kontakt: <code>&lt;E-Mail-Adresse einsetzen&gt;</code>
+  </p>
+
+  <h2>2. Hosting und Server-Logs</h2>
+  <p>
+    Die Seite läuft auf eigener Hardware in Deutschland. Vor dem Server steht
+    <strong>Cloudflare</strong> als Reverse Proxy und CDN.
+  </p>
+
+  <h3>Cloudflare (Auftragsverarbeiter)</h3>
+  <p>
+    Beim Aufruf der Seite verarbeitet Cloudflare Verbindungsdaten (IP-Adresse,
+    User-Agent, Referrer, Zeitstempel) zur Bereitstellung der Verbindung, zur
+    Angriffsabwehr und zum Caching.
+  </p>
+  <ul>
+    <li>Anbieter: Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA</li>
+    <li>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an stabilem, sicherem Betrieb)</li>
+    <li>Datenschutz: <a href="https://www.cloudflare.com/privacypolicy/">cloudflare.com/privacypolicy</a></li>
+  </ul>
+
+  <h3>Eigener Server</h3>
+  <p>Auf dem Server werden in den Logs kurzzeitig gespeichert:</p>
+  <ul>
+    <li>gekürzte IP-Adresse (letztes Oktett anonymisiert)</li>
+    <li>aufgerufene URL und HTTP-Status</li>
+    <li>User-Agent</li>
+    <li>Zeitstempel</li>
+  </ul>
+  <p>
+    Speicherdauer: max. 14 Tage, danach automatische Löschung. Keine
+    Zusammenführung mit anderen Datenquellen. Rechtsgrundlage: Art. 6 Abs. 1
+    lit. f DSGVO.
+  </p>
+
+  <h2>3. Cookies und lokaler Speicher</h2>
+  <p>
+    Aktuell werden <strong>keine</strong> Cookies und <strong>kein</strong>
+    Local Storage gesetzt. Sollten künftige Funktionen das benötigen (z. B.
+    Einstellungen des Soundtrack-Players), wird dies hier ergänzt und ggf. eine
+    Einwilligung eingeholt.
+  </p>
+
+  <h2>4. Externe Links</h2>
+  <p>
+    Auf der Seite verlinken wir zu Discord, Reddit und wiki.gg. Beim Anzeigen
+    der Links werden keine Daten an diese Dienste übermittelt. Erst beim Klick
+    werden Sie weitergeleitet, ab da gelten deren Datenschutzbestimmungen.
+  </p>
+
+  <h2>5. Schriftarten</h2>
+  <p>
+    Die Schriftarten <em>Xirod</em>, <em>Aldrich</em> und <em>Rajdhani</em> werden
+    lokal vom eigenen Server ausgeliefert. <strong>Keine</strong> Verbindung zu
+    Google Fonts oder anderen Schriftarten-CDNs.
+  </p>
+
+  <h2>6. Analyse, Tracking, Werbung</h2>
+  <p>
+    <strong>Kein</strong> Tracking, <strong>keine</strong> Analyse-Software
+    (kein Google Analytics, kein Plausible, kein Matomo) und
+    <strong>keine</strong> Werbung.
+  </p>
+
+  <h2>7. Ihre Rechte</h2>
+  <p>Sie haben gemäß DSGVO folgende Rechte:</p>
+  <ul>
+    <li>Auskunft (Art. 15)</li>
+    <li>Berichtigung (Art. 16)</li>
+    <li>Löschung (Art. 17)</li>
+    <li>Einschränkung der Verarbeitung (Art. 18)</li>
+    <li>Datenübertragbarkeit (Art. 20)</li>
+    <li>Widerspruch (Art. 21)</li>
+    <li>Beschwerde bei einer Aufsichtsbehörde (Art. 77) — zuständig ist die Datenschutzbehörde Ihres Bundeslandes</li>
+  </ul>
+  <p>Anfragen formlos an die oben genannte E-Mail-Adresse.</p>
+
+  <h2>8. Änderungen</h2>
+  <p>
+    Diese Erklärung wird bei jeder Änderung der Datenverarbeitung (neue
+    Funktionen, neue Auftragsverarbeiter etc.) angepasst. Das Datum am Anfang
+    weist auf den aktuellen Stand hin.
+  </p>
+</Content>

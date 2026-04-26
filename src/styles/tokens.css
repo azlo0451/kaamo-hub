@@ -52,4 +52,9 @@
   /* Glow shadows */
   --glow-holo:  0 0 12px rgba(102, 214, 255, 0.4);
   --glow-amber: 0 0 12px rgba(255, 170, 51, 0.4);
+
+  /* Dock — persistent bottom strip with player + ticker */
+  --dock-ticker-height: 2.25rem;
+  --dock-player-height: 3.75rem;
+  --dock-height: calc(var(--dock-player-height) + var(--dock-ticker-height));
 }

@@ -11,13 +11,41 @@ html {
 
 body {
   margin: 0;
-  min-height: 100vh;
+  height: 100dvh; /* fills the viewport; falls back fine on older browsers */
   font-family: var(--font-body);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* the page-shell handles scrolling, dock stays put */
+}
+
+.page-shell {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Themed scrollbar for the shell */
+.page-shell {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-holo-dim) transparent;
+}
+.page-shell::-webkit-scrollbar {
+  width: 8px;
+}
+.page-shell::-webkit-scrollbar-track {
+  background: transparent;
+}
+.page-shell::-webkit-scrollbar-thumb {
+  background: var(--color-holo-faint);
+  border-radius: 0;
+}
+.page-shell::-webkit-scrollbar-thumb:hover {
+  background: var(--color-holo-dim);
 }
 
 h1, h2, h3, h4, h5, h6 {

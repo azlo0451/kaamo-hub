@@ -1,0 +1,188 @@
+---
+// Persistent bottom dock — appears on every page via Base.astro.
+// Top row: OST player (placeholder), anchored bottom-right.
+// Bottom row: ticker tape, full-width.
+// The ticker scrolls horizontally on a loop; items are duplicated in
+// the DOM so the loop wraps seamlessly. Pause on hover, no animation
+// when prefers-reduced-motion is set.
+
+const tickerItems = [
+  'Welcome to The Kaamo Club',
+  'Phase 1 in progress',
+  'Docking systems coming online',
+  'Pilot, your station awaits',
+];
+
+// Render the items twice so a -50% translate produces a seamless loop.
+const tickerLoop = [...tickerItems, ...tickerItems];
+---
+<aside class="dock" aria-label="Station dock">
+  <div class="dock__upper">
+    <nav class="dock__nav" aria-label="Site">
+      <a href="/about">About</a>
+      <span class="dock__nav-sep" aria-hidden="true">·</span>
+      <a href="/rules">Rules</a>
+      <span class="dock__nav-sep" aria-hidden="true">·</span>
+      <a href="/privacy">Privacy</a>
+    </nav>
+    <div class="dock__player" aria-label="Soundtrack player">
+      <span class="dock__player-pip" aria-hidden="true"></span>
+      <span class="dock__player-label">OST</span>
+      <span class="dock__player-status">no track loaded</span>
+    </div>
+  </div>
+  <div class="dock__ticker" aria-label="Station bulletin">
+    <div class="dock__ticker-track">
+      {tickerLoop.map((item, i) => (
+        <>
+          <span
+            class="dock__ticker-item"
+            aria-hidden={i >= tickerItems.length ? 'true' : undefined}
+          >{item}</span>
+          <span class="dock__ticker-sep" aria-hidden="true">◆</span>
+        </>
+      ))}
+    </div>
+  </div>
+</aside>
+
+<style>
+  .dock {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+  }
+
+  /* Upper row — nav links on the left, player chip on the right */
+  .dock__upper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    height: var(--dock-player-height);
+    padding: var(--space-2) var(--space-4);
+  }
+  .dock__nav {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .dock__nav a {
+    color: var(--color-ink-dim);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .dock__nav a:hover {
+    color: var(--color-holo-glow);
+    border-bottom-color: var(--color-holo-dim);
+  }
+  .dock__nav-sep {
+    color: var(--color-ink-faint);
+  }
+  /* On narrow screens, hide the nav (still reachable via direct URL).
+     We can add a proper nav surface later if needed. */
+  @media (max-width: 32rem) {
+    .dock__nav {
+      display: none;
+    }
+  }
+  .dock__player {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) calc(var(--space-5) + 4px);
+    background: linear-gradient(135deg, rgba(15, 34, 54, 0.95), rgba(10, 24, 40, 0.88));
+    backdrop-filter: blur(4px);
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    /* HUD panel: top-left and bottom-right corners cut at 45°. */
+    clip-path: polygon(
+      14px 0,
+      100% 0,
+      100% calc(100% - 14px),
+      calc(100% - 14px) 100%,
+      0 100%,
+      0 14px
+    );
+    /* Inner outline (clip-path wouldn't follow a real border, so we draw
+       it inside with an inset shadow). */
+    box-shadow: inset 0 0 0 1px rgba(102, 214, 255, 0.22);
+    transition: box-shadow 200ms ease, background 200ms ease;
+  }
+  .dock__player:hover {
+    background: linear-gradient(135deg, rgba(20, 48, 74, 0.95), rgba(15, 34, 54, 0.92));
+    box-shadow: inset 0 0 0 1px rgba(102, 214, 255, 0.6);
+  }
+  .dock__player-pip {
+    width: 10px;
+    height: 10px;
+    background: var(--color-amber-dim);
+    box-shadow: 0 0 6px rgba(255, 170, 51, 0.3);
+  }
+  .dock__player-label {
+    color: var(--color-holo);
+  }
+  .dock__player-status {
+    color: var(--color-ink-faint);
+  }
+
+  /* Ticker row — full-width strip with a scrolling track */
+  .dock__ticker {
+    pointer-events: auto;
+    height: var(--dock-ticker-height);
+    background: rgba(5, 10, 20, 0.92);
+    border-top: 1px solid var(--color-holo-faint);
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+  }
+  .dock__ticker-track {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    height: 100%;
+    padding: 0 var(--space-5);
+    width: max-content; /* track is as wide as its contents */
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink-dim);
+    white-space: nowrap;
+    animation: ticker-scroll 60s linear infinite;
+    will-change: transform;
+  }
+  /* Items are duplicated; translating by -50% lands the second copy
+     exactly where the first copy started — seamless loop. */
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .dock__ticker:hover .dock__ticker-track {
+    animation-play-state: paused;
+  }
+  .dock__ticker-item {
+    flex-shrink: 0;
+  }
+  .dock__ticker-sep {
+    flex-shrink: 0;
+    color: var(--color-amber-dim);
+    font-size: 0.7rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dock__ticker-track {
+      animation: none;
+    }
+  }
+</style>
