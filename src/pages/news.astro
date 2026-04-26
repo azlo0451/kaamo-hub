@@ -1,0 +1,178 @@
+---
+import Base from '../layouts/Base.astro';
+import RandomBackground from '../components/RandomBackground.astro';
+import { getCollection, render } from 'astro:content';
+
+const posts = (await getCollection('news')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const renderedPosts = await Promise.all(
+  posts.map(async (post) => {
+    const rendered = await render(post);
+    return { post, Content: rendered.Content };
+  })
+);
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+<Base title="News · The Kaamo Club" description="Hub announcements and service status updates.">
+  <RandomBackground slot="head" />
+  <main class="news-page">
+    <div class="news-page__inner">
+      <header class="news-page__head">
+        <h1 class="news-page__title neon">News</h1>
+        <p class="news-page__intro">
+          Hub updates and service status. Subscribe via
+          <a href="/rss.xml">RSS</a>.
+        </p>
+      </header>
+
+      <ul class="news-list">
+        {renderedPosts.map(({ post, Content }) => (
+          <li class="news-card" id={post.id}>
+            <header class="news-card__head">
+              <time class="news-card__date" datetime={post.data.date.toISOString()}>
+                {dateFormatter.format(post.data.date)}
+              </time>
+              {post.data.incident && <span class="news-card__incident">Incident</span>}
+              {post.data.author && !post.data.incident && (
+                <span class="news-card__author">{post.data.author}</span>
+              )}
+            </header>
+            <h2 class="news-card__title">{post.data.title}</h2>
+            <div class="news-card__body"><Content /></div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .news-page {
+    position: relative;
+    min-height: 100%;
+    background-image: var(--hero-bg);
+    background-size: cover;
+    background-position: center;
+    background-color: var(--color-void);
+    padding: var(--space-10) var(--space-5);
+  }
+  .news-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5, 10, 20, 0.93), rgba(5, 10, 20, 0.96));
+    pointer-events: none;
+  }
+  .news-page__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+  .news-page__head {
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+  .news-page__title {
+    margin: 0 0 var(--space-3);
+  }
+  .news-page__intro {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ink-dim);
+    margin: 0;
+  }
+  .news-page__intro a {
+    color: var(--color-amber);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-amber-dim);
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .news-page__intro a:hover {
+    color: var(--color-amber-glow);
+    border-bottom-color: var(--color-amber);
+  }
+
+  .news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .news-card {
+    position: relative;
+    padding: var(--space-5);
+    background: rgba(10, 24, 40, 0.6);
+    border: 1px solid var(--color-holo-faint);
+    scroll-margin-top: var(--space-5);
+  }
+  .news-card__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .news-card__date {
+    color: var(--color-amber);
+  }
+  .news-card__author {
+    color: var(--color-ink-faint);
+  }
+  .news-card__incident {
+    color: var(--faction-vossk);
+    border: 1px solid var(--faction-vossk);
+    padding: 0.1rem 0.5rem;
+    font-size: 0.6rem;
+  }
+  .news-card__title {
+    font-family: var(--font-body);
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--color-holo-glow);
+    margin: 0 0 var(--space-3);
+    letter-spacing: 0.02em;
+  }
+  .news-card__body {
+    color: var(--color-ink-dim);
+    line-height: 1.6;
+  }
+  .news-card__body :global(p) {
+    margin: 0 0 var(--space-3);
+  }
+  .news-card__body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  .news-card__body :global(a) {
+    color: var(--color-holo);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-holo-faint);
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .news-card__body :global(a:hover) {
+    color: var(--color-holo-glow);
+    border-bottom-color: var(--color-holo);
+  }
+  .news-card__body :global(ul),
+  .news-card__body :global(ol) {
+    margin: 0 0 var(--space-3);
+    padding-left: var(--space-5);
+  }
+  .news-card__body :global(li) {
+    margin-bottom: var(--space-1);
+  }
+</style>
