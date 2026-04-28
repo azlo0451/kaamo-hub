@@ -6,17 +6,17 @@ Lives at [kaamo.club](https://kaamo.club). Front-door for the Discord, subreddit
 
 ## Status
 
-In early development. Currently in Phase 0 (Foundations). See [docs/roadmap.md](docs/roadmap.md) for the phase plan.
+In early development. Currently in Phase 1 (Soft Launch). See [docs/roadmap.md](docs/roadmap.md) for the phase plan.
 
 ## Stack
 
-- **Frontend:** Astro
+- **Frontend:** Astro (built locally, served by `nginx:alpine` on Unraid)
 - **Backend:** PocketBase (auth, uploads, moderation, comments)
 - **Search:** Meilisearch
 - **Wiki:** Wiki.js v2 (separate service)
 - **Matrix:** existing Synapse + embedded Hydrogen Web
-- **Reverse proxy:** Caddy
-- **Hosting:** homelab in Germany, Cloudflare in front
+- **Reverse proxy + TLS:** Nginx Proxy Manager
+- **Hosting:** Unraid box in Germany, Cloudflare in front
 
 ## Local development
 
